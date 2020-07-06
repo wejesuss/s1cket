@@ -1,0 +1,25 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier/@typescript-eslint",
+        "plugin:prettier/recommended"
+    ],
+    "rules": {
+        "no-console": "off",
+        "no-var": "error",
+        "prefer-const": "error",
+        "eqeqeq": "warn",
+        "newline-per-chained-call": "off",
+        "prettier/prettier": "error"
+    },
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module"
+    },
+    "env": {
+        "es6": true,
+        "browser": true,
+        "node": true
+    }
+}
