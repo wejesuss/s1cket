@@ -1,3 +1,5 @@
+import { PolishedSearch } from '../@types/index';
+
 const keys = {
     'Meta Data': 'data',
     '1. Information': 'information',
@@ -46,22 +48,6 @@ const keys = {
 };
 
 const timestamp = /[0-9]{4}-[0-9]{2}-[0-9]{2}( [0-9]{2}:[0-9]{2}:[0-9]{2})?/g;
-
-type SearchResults = {
-    symbol: string;
-    name: string;
-    type: string;
-    region: string;
-    marketOpen: string;
-    marketClose: string;
-    timezone: string;
-    currency: string;
-    matchScore: string;
-};
-
-interface PolishedSearch {
-    bestMatches: SearchResults[];
-}
 
 const polish = <T = unknown, R = PolishedSearch>(data: T): R => {
     if (!data || typeof data !== 'object') return (data as unknown) as R;
