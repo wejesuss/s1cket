@@ -1,19 +1,24 @@
 import { Response, Request } from 'express';
 import api from '../config/api';
 import { polish } from '../utils/util';
-import { Search } from '../@types/index';
+import { GlobalQuote, PolishedGlobalQuote } from '../@types/index';
 
 const Bookmarks = {
-    index: async (_: Request, res: Response): Promise<Response> => {
-        const { data: foundMatches } = await api.get<Search>('/');
-        const polishedMatches = polish(foundMatches);
+    index: async (req: Request, res: Response): Promise<Response> => {
+        const stockName = req.params.symbol;
 
-        res.setHeader(
-            'X-Total-Count',
-            String(polishedMatches.bestMatches.length)
+        const { data: bookmarksInfo } = await api.get<GlobalQuote>('/', {
+            params: {
+                function: 'GLOBAL_QUOTE',
+                symbol: stockName,
+            },
+        });
+
+        const polishedMatches = polish<GlobalQuote, PolishedGlobalQuote>(
+            bookmarksInfo
         );
 
-        return res.json(polishedMatches.bestMatches);
+        return res.json(polishedMatches.globalQuote);
     },
 };
 

@@ -5,23 +5,26 @@ import { Search } from '../@types/index';
 
 const Search = {
     search: async (req: Request, res: Response): Promise<Response> => {
-        const stockName = req.params.symbol.toLowerCase();
+        const stockName = req.params.symbol;
 
-        const { data: foundMatches } = await api.get<Search>('/');
-        const polishedMatches = polish(foundMatches);
-
-        const stocks = polishedMatches.bestMatches.filter((stock) => {
-            const includesSymbol = stock['symbol'].toLowerCase() === stockName;
-            const includesName = stock['name']
-                .toLowerCase()
-                .includes(stockName);
-
-            if (includesSymbol || includesName) return stock;
+        const { data: foundMatches } = await api.get<Search>('/', {
+            params: {
+                function: 'SYMBOL_SEARCH',
+                keywords: stockName,
+            },
         });
 
-        res.setHeader('X-Total-Count', String(stocks.length));
+        // eslint-disable-next-line prettier/prettier
+        const polishedMatches = polish(foundMatches).bestMatches.filter((value) => {
+                const hasSAO = value.symbol.includes('.SAO');
+                if (hasSAO) value.symbol = value.symbol.replace('.SAO', '');
+                return value;
+            }
+        );
 
-        return res.json(stocks);
+        res.setHeader('X-Total-Count', String(polishedMatches.length));
+
+        return res.json(polishedMatches);
     },
 };
 
