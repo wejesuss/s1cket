@@ -1,6 +1,8 @@
 import { PolishedSearch } from '../@types/index';
 
 const keys = {
+    'Error Message': 'error',
+
     'Meta Data': 'data',
     '1. Information': 'information',
     '2. Symbol': 'symbol',
@@ -21,12 +23,12 @@ const keys = {
     '8. currency': 'currency',
     '9. matchScore': 'matchScore',
 
-    'Time Series (1min)': 'timeSeries1Min',
-    'Time Series (5min)': 'timeSeries5Min',
-    'Time Series (15min)': 'timeSeries15Min',
-    'Time Series (30min)': 'timeSeries30Min',
-    'Time Series (60min)': 'timeSeries60Min',
-    'Time Series (Daily)': 'timeSeriesDaily',
+    'Time Series (1min)': 'timeSeries',
+    'Time Series (5min)': 'timeSeries',
+    'Time Series (15min)': 'timeSeries',
+    'Time Series (30min)': 'timeSeries',
+    'Time Series (60min)': 'timeSeries',
+    'Time Series (Daily)': 'timeSeries',
 
     '1. open': 'open',
     '2. high': 'high',

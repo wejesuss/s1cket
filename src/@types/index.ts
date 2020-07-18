@@ -1,35 +1,26 @@
 import { Intraday, intradayInformations } from './Intraday';
-import { GlobalQuoteResults } from './globalQuote';
+import { GlobalQuoteResults } from './GlobalQuote';
 import { SearchResults, PolishedSearchResults } from './Search';
 
 export interface Intraday1Minutes {
     'Meta Data': Intraday;
-    'Time Series (1min)'?: Record<string, Record<intradayInformations, string>>;
+    'Time Series (1min)': Record<string, Record<intradayInformations, string>>;
 }
 export interface Intraday5Minutes {
     'Meta Data': Intraday;
-    'Time Series (5min)'?: Record<string, Record<intradayInformations, string>>;
+    'Time Series (5min)': Record<string, Record<intradayInformations, string>>;
 }
 export interface Intraday15Minutes {
     'Meta Data': Intraday;
-    'Time Series (15min)'?: Record<
-        string,
-        Record<intradayInformations, string>
-    >;
+    'Time Series (15min)': Record<string, Record<intradayInformations, string>>;
 }
 export interface Intraday30Minutes {
     'Meta Data': Intraday;
-    'Time Series (30min)'?: Record<
-        string,
-        Record<intradayInformations, string>
-    >;
+    'Time Series (30min)': Record<string, Record<intradayInformations, string>>;
 }
 export interface Intraday60Minutes {
     'Meta Data': Intraday;
-    'Time Series (60min)'?: Record<
-        string,
-        Record<intradayInformations, string>
-    >;
+    'Time Series (60min)': Record<string, Record<intradayInformations, string>>;
 }
 export type Intradays =
     | Intraday1Minutes
