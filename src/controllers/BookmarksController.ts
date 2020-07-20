@@ -5,20 +5,40 @@ import { GlobalQuote, PolishedGlobalQuote } from '../@types/index';
 
 const Bookmarks = {
     index: async (req: Request, res: Response): Promise<Response> => {
-        const stockName = req.params.symbol;
+        let search = req.query.search;
 
-        const { data: bookmarksInfo } = await api.get<GlobalQuote>('/', {
-            params: {
-                function: 'GLOBAL_QUOTE',
-                symbol: stockName,
-            },
+        if (!search)
+            return res.json({
+                error: 'Please include search parameter',
+            });
+
+        search = String(search)
+            .split(',')
+            .map((value) => value.trim());
+
+        if (search.length > 5)
+            return res.json({
+                error: 'Please do not send more than 5 requests per minute',
+            });
+
+        const matchesPromise = search.map(async (value) => {
+            const stockInfo = await api.get<GlobalQuote>('/', {
+                params: {
+                    function: 'GLOBAL_QUOTE',
+                    symbol: value,
+                },
+            });
+
+            const polished = polish<GlobalQuote, PolishedGlobalQuote>(
+                stockInfo.data
+            );
+
+            return polished.globalQuote;
         });
 
-        const polishedMatches = polish<GlobalQuote, PolishedGlobalQuote>(
-            bookmarksInfo
-        );
+        const matches = await Promise.all(matchesPromise);
 
-        return res.json(polishedMatches.globalQuote);
+        return res.json(matches);
     },
 };
 
