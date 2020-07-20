@@ -1,5 +1,4 @@
 import { Intraday, intradayInformations } from './Intraday';
-import { GlobalQuoteResults } from './GlobalQuote';
 import { SearchResults, PolishedSearchResults } from './Search';
 
 export interface Intraday1Minutes {
@@ -36,6 +35,19 @@ export interface Search {
 export interface PolishedSearch {
     bestMatches: PolishedSearchResults[];
 }
+
+export type GlobalQuoteResults = {
+    symbol: string;
+    open: string;
+    high: string;
+    low: string;
+    price: string;
+    volume: string;
+    latestTradingDay: string;
+    previousClose: string;
+    change: string;
+    changePercent: string;
+};
 
 export interface GlobalQuote {
     'Global Quote': {
