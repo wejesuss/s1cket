@@ -7,11 +7,6 @@ const Bookmarks = {
     index: async (req: Request, res: Response): Promise<Response> => {
         let search = req.query.search;
 
-        if (!search)
-            return res.json({
-                error: 'Please include search parameter',
-            });
-
         search = String(search)
             .split(',')
             .map((value) => value.trim());
