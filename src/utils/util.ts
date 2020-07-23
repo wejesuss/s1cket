@@ -10,6 +10,7 @@ const keys = {
     '4. Interval': 'interval',
     '4. Output Size': 'outputSize',
     '5. Output Size': 'outputSize',
+    '4. Time Zone': 'timeZone',
     '5. Time Zone': 'timeZone',
     '6. Time Zone': 'timeZone',
 
@@ -29,6 +30,7 @@ const keys = {
     'Time Series (30min)': 'timeSeries',
     'Time Series (60min)': 'timeSeries',
     'Time Series (Daily)': 'timeSeries',
+    'Weekly Time Series': 'timeSeries',
 
     '1. open': 'open',
     '2. high': 'high',
