@@ -1,32 +1,25 @@
-import { Intraday, intradayInformations } from './Intraday';
+import {
+    Intraday15Minutes,
+    Intraday1Minutes,
+    Intraday30Minutes,
+    Intraday5Minutes,
+    Intraday60Minutes,
+    PolishedIntradayDailyAndWeekly,
+    Daily,
+    Weekly,
+} from './Intraday';
 import { SearchResults, PolishedSearchResults } from './Search';
 
-export interface Intraday1Minutes {
-    'Meta Data': Intraday;
-    'Time Series (1min)': Record<string, Record<intradayInformations, string>>;
-}
-export interface Intraday5Minutes {
-    'Meta Data': Intraday;
-    'Time Series (5min)': Record<string, Record<intradayInformations, string>>;
-}
-export interface Intraday15Minutes {
-    'Meta Data': Intraday;
-    'Time Series (15min)': Record<string, Record<intradayInformations, string>>;
-}
-export interface Intraday30Minutes {
-    'Meta Data': Intraday;
-    'Time Series (30min)': Record<string, Record<intradayInformations, string>>;
-}
-export interface Intraday60Minutes {
-    'Meta Data': Intraday;
-    'Time Series (60min)': Record<string, Record<intradayInformations, string>>;
-}
-export type Intradays =
+export type IntradaysDailyAndWeekly =
     | Intraday1Minutes
     | Intraday5Minutes
     | Intraday15Minutes
     | Intraday30Minutes
-    | Intraday60Minutes;
+    | Intraday60Minutes
+    | Daily
+    | Weekly;
+
+export type PolishedIntradaysDailyAndWeekly = PolishedIntradayDailyAndWeekly;
 
 export interface Search {
     bestMatches: SearchResults[];
