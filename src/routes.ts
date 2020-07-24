@@ -30,7 +30,7 @@ routes.get(
     Prices.daily
 );
 
-routes.get('/prices/weekly/:symbol', Prices.daily);
+routes.get('/prices/weekly/:symbol', Prices.weekly);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 routes.use((error, _req, res, _next) => {
