@@ -36,9 +36,9 @@ The first goal for this project was to learn more about typescript, which I have
 
 ## :seedling: Minimum Requirements
 
-NodeJS v10<br>
-YARN<br>
-You also need an API_KEY from Alpha Vantage, you can get this [free](https://www.alphavantage.co/)
+- NodeJS v10
+- YARN
+- You also need an API_KEY from Alpha Vantage, you can get this [free](https://www.alphavantage.co/)
 
 ## :rocket: Technologies Used
 
@@ -51,8 +51,9 @@ The project was developed using the following technologies
 - Celebrate
 
 ## :school_satchel: How to Use
-First you need an API_KEY to use the Alpha Vantage's API that this repostory rely, you can this [here](https://www.alphavantage.co/)
-After this, do that (I suppose you have [Node](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/) installed):
+First you need an API_KEY to use the Alpha Vantage's API that this repostory rely, you can get your api_key [here](https://www.alphavantage.co/)
+
+After this, do that (I suppose you have [Node](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/) installed)
 
 1. Clone this repository
     ```bash
@@ -68,6 +69,176 @@ After this, do that (I suppose you have [Node](https://nodejs.org/en/) and [Yarn
     $ yarn install
     # start the API
     $ yarn run dev
+    ```
+Your server should be running on `http://localhost:3000/`
+
+4. Routes
+There is five routes provided by this API:
+    1. `/` - Here you can obtain up to five informations about stocks, funds investments and others. See how it works:
+
+        Params:
+        - search: A string that can ocupe more than one values if you separate them by comma (`,`)
+
+            type: `string`;
+
+            max-length: 1026;
+
+            return-type: An array of `objects` with global informations about that stock/funds you passed the symbol
+
+        ```typescript
+            [{
+                'symbol': string,
+                'open': string,
+                'high': string,
+                'low': string,
+                'price': string,
+                'volume': string,
+                'latestTradingDay': string,
+                'previousClose': string,
+                'change': string,
+                'changePercent': string
+            }]
+        ```
+
+        Examples: `http://localhost:3000/?search=IBM`;
+        `http://localhost:3000/?search=IBM,PYPL`;
+    
+
+    2. `/search` - Forgot the symbol? don't worry, you can search by this. See how it works:
+
+        Params:
+
+        - symbol: The name of the company or investment fund you want to find
+
+            type: `string`;
+
+            return-type: An array of `objects` with companies/funds with a symbol/name similar to the one you searched for
+
+            ```typescript
+            [{
+                'symbol': string,
+                'name': string,
+                'type': string,
+                'region': string,
+                'marketOpen': string,
+                'marketClose': string,
+                'timezone': string,
+                'currency': string,
+                'matchScore': string
+            }]
+            ```
+
+        Examples: `http://localhost:3000/search/microsoft`; `http://localhost:3000/search/paypal`
+
+    3. `/prices/intraday` - Find the prices of one specific stock/funds using intraday prices. See how it works:
+
+        Params:
+
+        - symbol: The symbol of the company or investment fund you want the prices
+
+            type: `string`;
+
+        - interval: The interval period for each price information
+
+            type: `string`;
+
+            options: `1min` | `5min` | `15min` | `30min` | `60min`. Choose the one you prefer :smile:;
+
+            optional: default(`5min`);
+
+        - outputsize: The output limit of the price information
+
+            type: `string`;
+
+            options: `compact` (100 data points) | `full` (all possible data points). Choose the one you prefer :smile:;
+
+            optional: default(`compact`);
+            
+        obs: You can not send these params empty
+        
+        return-type: An `object` with `data` and `timeSeries` keys with timestamp (ISO format) and open/high/low/close/volume values
+
+        ```typescript
+        {
+            'data': {
+                'information': string,
+                'symbol': string,
+                'lastRefreshed': string,
+                'interval': string,
+                'outputSize': string,
+                'timeZone': string
+            },
+            'timeSeries': {
+                //just an example
+                '2020-07-23T23:55:00.000Z': {
+                    'open': string,
+                    'high': string,
+                    'low': string,
+                    'close': string,
+                    'volume': string
+                }
+            }
+        }
+        ```
+        
+        Examples: 
+            `http://localhost:3000/prices/intraday/ibm`;
+            `http://localhost:3000/prices/intraday/msft`;
+            `http://localhost:3000/prices/intraday/msft?interval=15min`;
+            `http://localhost:3000/prices/intraday/ibm?outputsize=full`;
+
+    4. `/prices/daily` - Find the prices of one specific stock/funds using daily prices. See how it works:
+
+        Params: Same as `/prices/intraday` but `/prices/daily` does not contain `interval` parameter
+
+        return-type: Same as `prices/intraday` but without `interval` key
+
+        ```typescript
+        {
+            'data': {
+                'information': string,
+                'symbol': string,
+                'lastRefreshed': string,
+                'outputSize': string,
+                'timeZone': string
+            },
+            'timeSeries': //This does not change
+        }
+        ```
+
+        Examples: 
+        `http://localhost:3000/prices/intraday/ibm`;
+        `http://localhost:3000/prices/intraday/msft`;                                
+        `http://localhost:3000/prices/intraday/ibm?outputsize=full`;
+                
+    5. `/prices/weekly` - Find the prices of one specific stock/funds using weekly prices. See how it works:
+
+        Params: Same as `/prices/daily` but `/prices/weekly` does not contain `outputsize` parameter
+
+        return-type: Same as `prices/daily` but without `outputSize` key
+
+        ```typescript
+        {
+            'data': {
+                'information': string,
+                'symbol': string,
+                'lastRefreshed': string,
+                'timeZone': string
+            },
+            'timeSeries': //This does not change
+        }
+        ```
+        
+        Examples: 
+        `http://localhost:3000/prices/intraday/ibm`; 
+        `http://localhost:3000/prices/intraday/msft`;                                
+    
+    obs: Some stocks/funds does not support timeseries (intraday, daily, weekly). In that case your reponse will be something like this
+
+    ```typescript
+    {
+        "error":"Invalid API call. Please retry or visit the documentation (https://www.alphavantage.co/query/documentation/) for TIME_SERIES_INTRADAY."
+    }
     ```
 
 ## :link: How to Contribute
