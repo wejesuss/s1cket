@@ -10,6 +10,15 @@ const symbolSchema = {
 };
 
 const searchSchema = {
+    [Segments.PARAMS]: Joi.object({
+        name: Joi.string().required().messages({
+            'string.empty': 'Symbol parameter can not be empty',
+            'any.required': "It's necessary a symbol as a parameter",
+        }),
+    }),
+};
+
+const bookmarkSchema = {
     [Segments.QUERY]: Joi.object({
         search: Joi.string().max(1026).required().messages({
             'string.base':
@@ -20,7 +29,7 @@ const searchSchema = {
     }),
 };
 
-const intradayAndDailyQueriesSchema = {
+const intradayDailyAndWeeklyQueriesSchema = {
     [Segments.QUERY]: {
         interval: Joi.string()
             .default('5min')
@@ -47,5 +56,6 @@ const intradayAndDailyQueriesSchema = {
 export default {
     symbolSchema,
     searchSchema,
-    intradayAndDailyQueriesSchema,
+    bookmarkSchema,
+    intradayDailyAndWeeklyQueriesSchema,
 };

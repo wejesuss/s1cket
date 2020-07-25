@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { celebrate, errors } from 'celebrate';
-import Schemes from './validators/Schemes';
+import Schemas from './validators/Schemas';
 
 import Bookmarks from './controllers/BookmarksController';
 import Search from './controllers/SearchController';
@@ -8,25 +8,25 @@ import Prices from './controllers/PricesController';
 
 const routes = Router();
 
-routes.get('/', celebrate(Schemes.searchSchema), Bookmarks.index);
+routes.get('/', celebrate(Schemas.bookmarkSchema), Bookmarks.index);
 
-routes.get('/search', celebrate(Schemes.symbolSchema));
+routes.get('/search', celebrate(Schemas.searchSchema));
 
-routes.get('/search/:symbol', Search.search);
+routes.get('/search/:name', Search.index);
 
-routes.get('/prices/intraday', celebrate(Schemes.symbolSchema));
-routes.get('/prices/daily', celebrate(Schemes.symbolSchema));
-routes.get('/prices/weekly', celebrate(Schemes.symbolSchema));
+routes.get('/prices/intraday', celebrate(Schemas.symbolSchema));
+routes.get('/prices/daily', celebrate(Schemas.symbolSchema));
+routes.get('/prices/weekly', celebrate(Schemas.symbolSchema));
 
 routes.get(
     '/prices/intraday/:symbol',
-    celebrate(Schemes.intradayAndDailyQueriesSchema),
+    celebrate(Schemas.intradayDailyAndWeeklyQueriesSchema),
     Prices.intraday
 );
 
 routes.get(
     '/prices/daily/:symbol',
-    celebrate(Schemes.intradayAndDailyQueriesSchema),
+    celebrate(Schemas.intradayDailyAndWeeklyQueriesSchema),
     Prices.daily
 );
 
