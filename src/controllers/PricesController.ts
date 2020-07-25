@@ -11,12 +11,6 @@ class Prices {
         interval = String(interval);
         outputsize = String(outputsize);
 
-        const isInBrazil = stockName.slice(-4).toUpperCase() === '.SAO';
-        if (isInBrazil)
-            return res.json({
-                error: 'This country does not support this time series',
-            });
-
         const { data: intradayInfo } = await Helpers.intraday(
             stockName,
             interval,
