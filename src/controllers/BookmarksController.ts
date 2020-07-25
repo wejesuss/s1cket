@@ -38,7 +38,7 @@ class Bookmarks {
         const matches = await Promise.all(matchesPromise);
 
         return res.json(matches);
-    },
-};
+    }
+}
 
-export default Bookmarks;
+export default new Bookmarks();
