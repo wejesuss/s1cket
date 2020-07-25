@@ -82,4 +82,10 @@ const polish = <T = unknown, R = PolishedSearch>(data: T): R => {
     return clean as R;
 };
 
-export { polish };
+const splitComma = (value: unknown): Array<string> =>
+    String(value)
+        .split(',')
+        .map((value) => value.trim())
+        .filter((value) => value);
+
+export { polish, splitComma };

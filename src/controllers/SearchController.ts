@@ -1,16 +1,17 @@
 import { Response, Request } from 'express';
+
 import api from '../config/api';
 import { polish } from '../utils/util';
-import { Search } from '../@types/index';
+import { Search as ISearch, FunctionKeys } from '../@types/index';
 
-const Search = {
-    search: async (req: Request, res: Response): Promise<Response> => {
-        const stockName = req.params.symbol;
+class Search {
+    public async index(req: Request, res: Response): Promise<Response> {
+        const companyName = req.params.name;
 
-        const { data: foundMatches } = await api.get<Search>('/', {
+        const { data: foundMatches } = await api.get<ISearch>('/', {
             params: {
-                function: 'SYMBOL_SEARCH',
-                keywords: stockName,
+                function: FunctionKeys.symbolSearch,
+                keywords: companyName,
             },
         });
 
@@ -25,7 +26,7 @@ const Search = {
         res.setHeader('X-Total-Count', String(polishedMatches.length));
 
         return res.json(polishedMatches);
-    },
-};
+    }
+}
 
-export default Search;
+export default new Search();

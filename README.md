@@ -60,7 +60,7 @@ After this, do that (I suppose you have [Node](https://nodejs.org/en/) and [Yarn
     $ git clone https://github.com/wejesuss/s1cket && cd s1cket
     # You can also download the zip in your repository page
     ```
-    
+
 2. Configure the API_KEY
     1. You need to set your API_KEY on your system environment variables as `ALPHA_VANTAGE_KEY`. You can google this.
 
@@ -102,13 +102,13 @@ There is five routes provided by this API:
 
         Examples: `http://localhost:3000/?search=IBM`;
         `http://localhost:3000/?search=IBM,PYPL`;
-    
+
 
     2. `/search` - Forgot the symbol? don't worry, you can search by this. See how it works:
 
         Params:
 
-        - symbol: The name of the company or investment fund you want to find
+        - name: The name of the company or investment fund you want to find
 
             type: `string`;
 
@@ -153,9 +153,9 @@ There is five routes provided by this API:
             options: `compact` (100 data points) | `full` (all possible data points). Choose the one you prefer :smile:;
 
             optional: default(`compact`);
-            
+
         obs: You can not send these params empty
-        
+
         return-type: An `object` with `data` and `timeSeries` keys with timestamp (ISO format) and open/high/low/close/volume values
 
         ```typescript
@@ -180,8 +180,8 @@ There is five routes provided by this API:
             }
         }
         ```
-        
-        Examples: 
+
+        Examples:
             `http://localhost:3000/prices/intraday/ibm`;
             `http://localhost:3000/prices/intraday/msft`;
             `http://localhost:3000/prices/intraday/msft?interval=15min`;
@@ -206,11 +206,11 @@ There is five routes provided by this API:
         }
         ```
 
-        Examples: 
+        Examples:
         `http://localhost:3000/prices/intraday/ibm`;
-        `http://localhost:3000/prices/intraday/msft`;                                
+        `http://localhost:3000/prices/intraday/msft`;
         `http://localhost:3000/prices/intraday/ibm?outputsize=full`;
-                
+
     5. `/prices/weekly` - Find the prices of one specific stock/funds using weekly prices. See how it works:
 
         Params: Same as `/prices/daily` but `/prices/weekly` does not contain `outputsize` parameter
@@ -228,11 +228,11 @@ There is five routes provided by this API:
             'timeSeries': //This does not change
         }
         ```
-        
-        Examples: 
-        `http://localhost:3000/prices/intraday/ibm`; 
-        `http://localhost:3000/prices/intraday/msft`;                                
-    
+
+        Examples:
+        `http://localhost:3000/prices/intraday/ibm`;
+        `http://localhost:3000/prices/intraday/msft`;
+
     obs: Some stocks/funds does not support timeseries (intraday, daily, weekly). In that case your reponse will be something like this
 
     ```typescript
