@@ -6,12 +6,13 @@ import { GlobalQuote, PolishedGlobalQuote } from '../@types/index';
 const Bookmarks = {
     index: async (req: Request, res: Response): Promise<Response> => {
         let search = req.query.search;
+        const limitOfRequest = 5;
 
         search = String(search)
             .split(',')
             .map((value) => value.trim());
 
-        if (search.length > 5)
+        if (search.length > limitOfRequest)
             return res.json({
                 error: 'Please do not send more than 5 requests per minute',
             });
