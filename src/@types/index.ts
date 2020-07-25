@@ -60,3 +60,11 @@ export interface GlobalQuote {
 export interface PolishedGlobalQuote {
     globalQuote: GlobalQuoteResults;
 }
+
+export enum FunctionKeys {
+    globalQuote = 'GLOBAL_QUOTE',
+    symbolSearch = 'SYMBOL_SEARCH',
+    intraday = 'TIME_SERIES_INTRADAY',
+    daily = 'TIME_SERIES_DAILY',
+    weekly = 'TIME_SERIES_WEEKLY',
+}

@@ -23,7 +23,7 @@ class Bookmarks {
         const matchesPromise = search.map(async (value) => {
             const stockInfo = await api.get<GlobalQuote>('/', {
                 params: {
-                    function: 'GLOBAL_QUOTE',
+                    function: FunctionKeys.globalQuote,
                     symbol: value,
                 },
             });
