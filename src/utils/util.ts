@@ -61,10 +61,8 @@ const polish = <T = unknown, R = PolishedSearch>(data: T): R => {
     Object.keys(data).forEach((key) => {
         key = key.toString();
 
-        if (timestamp.test(key)) {
-            const timestampWithGMT = key + ' GMT-0400';
-
-            clean[new Date(timestampWithGMT).toISOString()] = polish(data[key]);
+        if (timestamp.test(key) || timestamp.test(data[key])) {
+            clean[new Date(key).toISOString()] = polish(data[key]);
             return;
         }
 
