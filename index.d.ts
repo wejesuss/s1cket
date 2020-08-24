@@ -11,14 +11,15 @@ export interface PolishedMetaIntradayDailyAndWeekly {
     timeZone: string;
 }
 
-type PolishedInformations = 'open' | 'high' | 'low' | 'close' | 'volume';
+export type PolishedInformations = 'open' | 'high' | 'low' | 'close' | 'volume';
 
 export interface PolishedIntradayDailyAndWeekly {
-    data: PolishedMetaIntradayDailyAndWeekly;
-    timeSeries: Record<string, Record<PolishedInformations, string>>;
+    data: PolishedMetaIntradayDailyAndWeekly | undefined;
+    timeSeries: Record<string, Record<PolishedInformations, string> | undefined> | undefined;
+    error?: string;
 }
 
-export type PolishedSearchResults = {
+export interface PolishedSearchResults {
     symbol: string;
     name: string;
     type: string;
@@ -28,13 +29,11 @@ export type PolishedSearchResults = {
     timezone: string;
     currency: string;
     matchScore: string;
-};
-
-export interface PolishedSearch {
-    bestMatches: PolishedSearchResults[];
 }
 
-export type GlobalQuoteResults = {
+export type PolishedSearch = PolishedSearchResults[];
+
+export interface GlobalQuoteResults {
     symbol: string;
     open: string;
     high: string;
@@ -45,7 +44,7 @@ export type GlobalQuoteResults = {
     previousClose: string;
     change: string;
     changePercent: string;
-};
+}
 
 export interface PolishedGlobalQuote {
     globalQuote: GlobalQuoteResults;
