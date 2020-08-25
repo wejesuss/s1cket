@@ -1,10 +1,13 @@
 import { Joi, Segments } from 'celebrate';
 import currencies from './currencies.json';
-const currenciesFormatted = currencies.physical
-    .map((physical) => physical.code)
-    .concat(currencies.digital.map((digital) => String(digital.code)))
-    .sort();
+
+const physicalCodes = currencies.physical.map((currency) => currency.code);
+const digitalCodes = currencies.digital.map((digital) => String(digital.code));
+
+const currenciesFormatted = physicalCodes.concat(digitalCodes).sort();
 const currenciesAsString = currenciesFormatted.join(', ');
+const physicalCurrenciesAsString = physicalCodes.sort().join(', ');
+const digitalCurrenciesAsString = digitalCodes.sort().join(', ');
 
 const symbolSchema = {
     [Segments.PARAMS]: Joi.object({
@@ -62,6 +65,28 @@ const exchangeSchema = {
     }),
 };
 
+const criptoSchema = {
+    [Segments.QUERY]: {
+        market: Joi.string()
+            .default('CNY')
+            .valid(...physicalCodes)
+            .insensitive()
+            .messages({
+                'string.base': "market parameter should be of type 'string'.",
+                'string.empty': 'market parameter can not be empty',
+                'any.only': `market must be one of [${physicalCurrenciesAsString}]`,
+            }),
+    },
+    [Segments.PARAMS]: Joi.object({
+        currency: Joi.string()
+            .valid(...digitalCodes)
+            .insensitive()
+            .messages({
+                'any.only': `currency must be one of [${digitalCurrenciesAsString}]`,
+            }),
+    }),
+};
+
 const intradayDailyAndWeeklyQueriesSchema = {
     [Segments.QUERY]: {
         interval: Joi.string()
@@ -91,5 +116,6 @@ export default {
     searchSchema,
     bookmarkSchema,
     exchangeSchema,
+    criptoSchema,
     intradayDailyAndWeeklyQueriesSchema,
 };
