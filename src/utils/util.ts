@@ -49,6 +49,17 @@ const keys = {
     '08. previous close': 'previousClose',
     '09. change': 'change',
     '10. change percent': 'changePercent',
+
+    'Realtime Currency Exchange Rate': 'currencyExchangeRate',
+    '1. From_Currency Code': 'fromCurrencyCode',
+    '2. From_Currency Name': 'fromCurrencyName',
+    '3. To_Currency Code': 'toCurrencyCode',
+    '4. To_Currency Name': 'toCurrencyName',
+    '5. Exchange Rate': 'exchangeRate',
+    '6. Last Refreshed': 'lastRefreshed',
+    '7. Time Zone': 'timeZone',
+    '8. Bid Price': 'bidPrice',
+    '9. Ask Price': 'askPrice',
 };
 
 const timestamp = /[0-9]{4}-[0-9]{2}-[0-9]{2}( [0-9]{2}:[0-9]{2}:[0-9]{2})?/g;
