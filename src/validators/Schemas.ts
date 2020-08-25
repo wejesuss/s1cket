@@ -9,7 +9,7 @@ const currenciesAsString = currenciesFormatted.join(', ');
 const symbolSchema = {
     [Segments.PARAMS]: Joi.object({
         symbol: Joi.string().required().messages({
-            'string.empty': 'Symbol parameter can not be empty',
+            'string.empty': 'symbol parameter can not be empty',
             'any.required': "It's necessary a symbol as a parameter",
         }),
     }),
@@ -18,7 +18,7 @@ const symbolSchema = {
 const searchSchema = {
     [Segments.PARAMS]: Joi.object({
         name: Joi.string().required().messages({
-            'string.empty': 'Symbol parameter can not be empty',
+            'string.empty': 'symbol parameter can not be empty',
             'any.required': "It's necessary a symbol as a parameter",
         }),
     }),
@@ -28,8 +28,8 @@ const bookmarkSchema = {
     [Segments.QUERY]: Joi.object({
         search: Joi.string().max(1026).required().messages({
             'string.base':
-                "Search parameter should be of type 'string'. You can separate values with ','",
-            'string.empty': 'Search parameter can not be empty',
+                "search parameter should be of type 'string'. You can separate values with ','",
+            'string.empty': 'search parameter can not be empty',
             'any.required': 'Please include search parameter',
         }),
     }),
