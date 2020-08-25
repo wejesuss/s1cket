@@ -5,6 +5,7 @@ import Schemas from './validators/Schemas';
 import Bookmarks from './controllers/BookmarksController';
 import Search from './controllers/SearchController';
 import Prices from './controllers/PricesController';
+import Currencies from './controllers/CurrenciesController';
 
 const routes = Router();
 
@@ -13,6 +14,12 @@ routes.get('/', celebrate(Schemas.bookmarkSchema), Bookmarks.index);
 routes.get('/search', celebrate(Schemas.searchSchema));
 
 routes.get('/search/:name', Search.index);
+
+routes.get(
+    '/currencies/exchange',
+    celebrate(Schemas.exchangeSchema),
+    Currencies.exchange
+);
 
 routes.get('/prices/intraday', celebrate(Schemas.symbolSchema));
 routes.get('/prices/daily', celebrate(Schemas.symbolSchema));

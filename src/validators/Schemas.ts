@@ -1,4 +1,10 @@
 import { Joi, Segments } from 'celebrate';
+import currencies from './currencies.json';
+const currenciesFormatted = currencies.physical
+    .map((physical) => physical.code)
+    .concat(currencies.digital.map((digital) => String(digital.code)))
+    .sort();
+const currenciesAsString = currenciesFormatted.join(', ');
 
 const symbolSchema = {
     [Segments.PARAMS]: Joi.object({
@@ -26,6 +32,33 @@ const bookmarkSchema = {
             'string.empty': 'Search parameter can not be empty',
             'any.required': 'Please include search parameter',
         }),
+    }),
+};
+
+const exchangeSchema = {
+    [Segments.QUERY]: Joi.object({
+        from_currency: Joi.string()
+            .valid(...currenciesFormatted)
+            .insensitive()
+            .required()
+            .messages({
+                'string.base':
+                    "from_currency parameter should be of type 'string'.",
+                'string.empty': 'from_currency parameter can not be empty',
+                'any.required': 'Please include from_currency parameter',
+                'any.only': `from_currency must be one of [${currenciesAsString}]`,
+            }),
+        to_currency: Joi.string()
+            .valid(...currenciesFormatted)
+            .insensitive()
+            .required()
+            .messages({
+                'string.base':
+                    "to_currency parameter should be of type 'string'.",
+                'string.empty': 'to_currency parameter can not be empty',
+                'any.required': 'Please include to_currency parameter',
+                'any.only': `to_currency must be one of [${currenciesAsString}]`,
+            }),
     }),
 };
 
@@ -57,5 +90,6 @@ export default {
     symbolSchema,
     searchSchema,
     bookmarkSchema,
+    exchangeSchema,
     intradayDailyAndWeeklyQueriesSchema,
 };
