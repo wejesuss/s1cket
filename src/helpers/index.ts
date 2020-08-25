@@ -3,6 +3,7 @@ import { polish } from '../utils/util';
 import {
     PolishedIntradaysDailyAndWeekly,
     IntradaysDailyAndWeekly,
+    ExchangeRate,
     FunctionKeys,
 } from '../@types/index';
 import { AxiosResponse } from 'axios';
@@ -56,6 +57,21 @@ class Helpers {
             params: {
                 function: FunctionKeys.weekly,
                 symbol: stockName,
+            },
+        });
+
+        return response;
+    }
+
+    public async exchange(
+        from_currency: string,
+        to_currency: string
+    ): Promise<AxiosResponse<ExchangeRate>> {
+        const response = api.get<ExchangeRate>('/', {
+            params: {
+                function: FunctionKeys.exchangeRate,
+                from_currency,
+                to_currency,
             },
         });
 
