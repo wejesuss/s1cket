@@ -21,6 +21,26 @@ routes.get(
     Currencies.exchange
 );
 
+routes.get('/currencies/prices/daily', celebrate(Schemas.symbolSchema));
+routes.get('/currencies/prices/weekly', celebrate(Schemas.symbolSchema));
+routes.get('/currencies/prices/monthly', celebrate(Schemas.symbolSchema));
+
+routes.get(
+    '/currencies/prices/daily/:currency',
+    celebrate(Schemas.criptoSchema),
+    Currencies.daily
+);
+routes.get(
+    '/currencies/prices/weekly/:currency',
+    celebrate(Schemas.criptoSchema),
+    Currencies.weekly
+);
+routes.get(
+    '/currencies/prices/monthly/:currency',
+    celebrate(Schemas.criptoSchema),
+    Currencies.monthly
+);
+
 routes.get('/prices/intraday', celebrate(Schemas.symbolSchema));
 routes.get('/prices/daily', celebrate(Schemas.symbolSchema));
 routes.get('/prices/weekly', celebrate(Schemas.symbolSchema));
