@@ -1,67 +1,95 @@
 import api from '../config/api';
-import { polish } from '../utils/util';
+import { polish, setCurrenciesDataKeys } from '../utils/util';
 import {
     PolishedIntradaysDailyAndWeekly,
     IntradaysDailyAndWeekly,
     ExchangeRate,
     FunctionKeys,
+    CriptoDailyWeeklyAndMonthly,
+    PolishedCriptoSeries,
 } from '../@types/index';
 import { AxiosResponse } from 'axios';
 
 class Helpers {
-    public polish(data: IntradaysDailyAndWeekly) {
-        const result = polish<
-            IntradaysDailyAndWeekly,
-            PolishedIntradaysDailyAndWeekly
-        >(data);
+    public stocks = {
+        polish(data: IntradaysDailyAndWeekly) {
+            const result = polish<
+                IntradaysDailyAndWeekly,
+                PolishedIntradaysDailyAndWeekly
+            >(data);
 
-        return result;
-    }
+            return result;
+        },
+        async intraday(
+            stockName: string,
+            interval: string,
+            outputsize: string
+        ): Promise<AxiosResponse<IntradaysDailyAndWeekly>> {
+            const response = api.get<IntradaysDailyAndWeekly>('/', {
+                params: {
+                    function: FunctionKeys.intraday,
+                    symbol: stockName,
+                    interval,
+                    outputsize,
+                },
+            });
 
-    public async intraday(
-        stockName: string,
-        interval: string,
-        outputsize: string
-    ): Promise<AxiosResponse<IntradaysDailyAndWeekly>> {
-        const response = api.get<IntradaysDailyAndWeekly>('/', {
-            params: {
-                function: FunctionKeys.intraday,
-                symbol: stockName,
-                interval,
-                outputsize,
-            },
-        });
+            return response;
+        },
+        async daily(
+            stockName: string,
+            outputsize: string
+        ): Promise<AxiosResponse<IntradaysDailyAndWeekly>> {
+            const response = api.get<IntradaysDailyAndWeekly>('/', {
+                params: {
+                    function: FunctionKeys.daily,
+                    symbol: stockName,
+                    outputsize,
+                },
+            });
 
-        return response;
-    }
+            return response;
+        },
+        async weekly(
+            stockName: string
+        ): Promise<AxiosResponse<IntradaysDailyAndWeekly>> {
+            const response = api.get<IntradaysDailyAndWeekly>('/', {
+                params: {
+                    function: FunctionKeys.weekly,
+                    symbol: stockName,
+                },
+            });
 
-    public async daily(
-        stockName: string,
-        outputsize: string
-    ): Promise<AxiosResponse<IntradaysDailyAndWeekly>> {
-        const response = api.get<IntradaysDailyAndWeekly>('/', {
-            params: {
-                function: FunctionKeys.daily,
-                symbol: stockName,
-                outputsize,
-            },
-        });
+            return response;
+        },
+    };
 
-        return response;
-    }
+    public digitalCurrencies = {
+        polish(data: CriptoDailyWeeklyAndMonthly) {
+            setCurrenciesDataKeys();
 
-    public async weekly(
-        stockName: string
-    ): Promise<AxiosResponse<IntradaysDailyAndWeekly>> {
-        const response = api.get<IntradaysDailyAndWeekly>('/', {
-            params: {
-                function: FunctionKeys.weekly,
-                symbol: stockName,
-            },
-        });
+            const results = polish<
+                CriptoDailyWeeklyAndMonthly,
+                PolishedCriptoSeries
+            >(data);
 
-        return response;
-    }
+            return results;
+        },
+        async daily(
+            currency: string,
+            market: string
+        ): Promise<AxiosResponse<CriptoDailyWeeklyAndMonthly>> {
+            const response = api.get<CriptoDailyWeeklyAndMonthly>('/', {
+                params: {
+                    function: FunctionKeys.criptoDaily,
+                    symbol: currency,
+                    market,
+                },
+            });
+
+            return response;
+        },
+    };
 
     public async exchange(
         from_currency: string,
