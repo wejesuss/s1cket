@@ -75,19 +75,37 @@ class Helpers {
 
             return results;
         },
-        async daily(
+        async prices(
+            series: 'daily' | 'weekly' | 'monthly',
             currency: string,
             market: string
         ): Promise<AxiosResponse<CriptoDailyWeeklyAndMonthly>> {
+            const functions = {
+                daily: FunctionKeys.criptoDaily,
+                weekly: FunctionKeys.criptoWeekly,
+                monthly: FunctionKeys.criptoMonthly,
+            };
+
             const response = api.get<CriptoDailyWeeklyAndMonthly>('/', {
                 params: {
-                    function: FunctionKeys.criptoDaily,
+                    function: functions[series],
                     symbol: currency,
                     market,
                 },
             });
 
             return response;
+        },
+        async polishedPrices(
+            series: 'daily' | 'weekly' | 'monthly',
+            currency: string,
+            market: string
+        ): Promise<PolishedCriptoSeries> {
+            const { data } = await this.prices(series, currency, market);
+
+            const polishedCripto = this.polish(data);
+
+            return polishedCripto;
         },
     };
 
