@@ -23,22 +23,39 @@ class Currencies {
         const { currency } = req.params;
         const { market } = req.query;
 
-        const { data } = await Helpers.digitalCurrencies.daily(
+        const polishedCripto = await Helpers.digitalCurrencies.polishedPrices(
+            'daily',
             currency,
             String(market)
         );
-
-        const polishedCripto = Helpers.digitalCurrencies.polish(data);
 
         return res.json(polishedCripto);
     }
 
     async weekly(req: Request, res: Response) {
-        return res.json('hello');
+        const { currency } = req.params;
+        const { market } = req.query;
+
+        const polishedCripto = await Helpers.digitalCurrencies.polishedPrices(
+            'weekly',
+            currency,
+            String(market)
+        );
+
+        return res.json(polishedCripto);
     }
 
     async monthly(req: Request, res: Response) {
-        return res.json('hello');
+        const { currency } = req.params;
+        const { market } = req.query;
+
+        const polishedCripto = await Helpers.digitalCurrencies.polishedPrices(
+            'monthly',
+            currency,
+            String(market)
+        );
+
+        return res.json(polishedCripto);
     }
 }
 
