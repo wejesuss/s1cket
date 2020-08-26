@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { PolishedExchangeRate, ExchangeRate } from '../@types';
 
-import Helpers from '../helpers';
+import Helpers from '../Helpers';
 import { polish } from '../utils/util';
 
 class Currencies {
@@ -20,7 +20,17 @@ class Currencies {
     }
 
     async daily(req: Request, res: Response) {
-        return res.json('hello');
+        const { currency } = req.params;
+        const { market } = req.query;
+
+        const { data } = await Helpers.digitalCurrencies.daily(
+            currency,
+            String(market)
+        );
+
+        const polishedCripto = Helpers.digitalCurrencies.polish(data);
+
+        return res.json(polishedCripto);
     }
 
     async weekly(req: Request, res: Response) {
