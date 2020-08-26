@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 
-import Helpers from '../helpers';
+import Helpers from '../Helpers';
 
 class Prices {
     public async intraday(req: Request, res: Response): Promise<Response> {
@@ -11,14 +11,14 @@ class Prices {
         interval = String(interval);
         outputsize = String(outputsize);
 
-        const { data: intradayInfo } = await Helpers.intraday(
+        const { data: intradayInfo } = await Helpers.stocks.intraday(
             stockName,
             interval,
             outputsize
         );
 
         // eslint-disable-next-line prettier/prettier
-        const polishedData = Helpers.polish(intradayInfo);
+        const polishedData = Helpers.stocks.polish(intradayInfo);
 
         return res.json(polishedData);
     }
@@ -29,10 +29,13 @@ class Prices {
 
         outputsize = String(outputsize);
 
-        const { data: dailyInfo } = await Helpers.daily(stockName, outputsize);
+        const { data: dailyInfo } = await Helpers.stocks.daily(
+            stockName,
+            outputsize
+        );
 
         // eslint-disable-next-line prettier/prettier
-        const polishedData = Helpers.polish(dailyInfo);
+        const polishedData = Helpers.stocks.polish(dailyInfo);
 
         return res.json(polishedData);
     }
@@ -40,10 +43,10 @@ class Prices {
     public async weekly(req: Request, res: Response): Promise<Response> {
         const stockName = req.params.symbol;
 
-        const { data: dailyInfo } = await Helpers.weekly(stockName);
+        const { data: dailyInfo } = await Helpers.stocks.weekly(stockName);
 
         // eslint-disable-next-line prettier/prettier
-        const polishedData = Helpers.polish(dailyInfo);
+        const polishedData = Helpers.stocks.polish(dailyInfo);
 
         return res.json(polishedData);
     }
