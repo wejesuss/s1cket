@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { PolishedExchangeRate, ExchangeRate } from '../@types';
 
-import Helpers from '../Helpers';
+import Helpers from '../Helpers/Helpers';
 import { polish } from '../utils/util';
 
 class Currencies {

@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 
-import Helpers from '../Helpers';
+import Helpers from '../Helpers/Helpers';
 
 class Prices {
     public async intraday(req: Request, res: Response): Promise<Response> {
