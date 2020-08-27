@@ -13,7 +13,7 @@ import {
     CriptoSeriesDaily,
     CriptoSeriesMonthly,
     CriptoSeriesWeekly,
-    PolishedTimeSeriesData,
+    PolishedCriptoSeriesData,
     PolishedCriptoMetaData,
 } from './Currencies';
 
@@ -71,7 +71,9 @@ export type CriptoDailyWeeklyAndMonthly =
 
 export interface PolishedCriptoSeries {
     data: PolishedCriptoMetaData | undefined;
-    timeSeries: Record<string, PolishedTimeSeriesData | undefined> | undefined;
+    timeSeries:
+        | Record<string, PolishedCriptoSeriesData | undefined>
+        | undefined;
     error?: string;
 }
 
