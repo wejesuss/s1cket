@@ -93,6 +93,9 @@ export interface Weekly {
 }
 
 export interface PolishedIntradayDailyAndWeekly {
-    data: PolishedMetaIntradayDailyAndWeekly;
-    timeSeries: Record<string, Record<PolishedInformations, string>>;
+    data: PolishedMetaIntradayDailyAndWeekly | undefined;
+    timeSeries:
+        | Record<string, Record<PolishedInformations, string> | undefined>
+        | undefined;
+    error?: string;
 }
