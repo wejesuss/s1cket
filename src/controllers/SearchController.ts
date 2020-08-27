@@ -16,12 +16,7 @@ class Search {
         });
 
         // eslint-disable-next-line prettier/prettier
-        const polishedMatches = polish(foundMatches).bestMatches.filter((value) => {
-                const hasSAO = value.symbol.includes('.SAO');
-                if (hasSAO) value.symbol = value.symbol.replace('.SAO', '');
-                return value;
-            }
-        );
+        const polishedMatches = polish(foundMatches).bestMatches.filter((value) => value);
 
         res.setHeader('X-Total-Count', String(polishedMatches.length));
 
