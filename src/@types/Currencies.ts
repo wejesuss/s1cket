@@ -28,7 +28,7 @@ export interface TimeSeriesData {
     '6. market cap (USD)': string;
 }
 
-export type PolishedTimeSeriesData = {
+export type PolishedCriptoSeriesData = {
     [key: string]: string;
     openUSD: string;
     highUSD: string;
