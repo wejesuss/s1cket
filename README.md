@@ -70,7 +70,7 @@ After this, do that (I suppose you have [Node](https://nodejs.org/en/) and [Yarn
     # start the API
     $ yarn run dev
     ```
-Your server should be running on `http://localhost:3000/`
+Your server should be running on `http://localhost:3333/`
 
 4. Routes
 There is five routes provided by this API:
@@ -100,8 +100,8 @@ There is five routes provided by this API:
             }]
         ```
 
-        Examples: `http://localhost:3000/?search=IBM`;
-        `http://localhost:3000/?search=IBM,PYPL`;
+        Examples: `http://localhost:3333/?search=IBM`;
+        `http://localhost:3333/?search=IBM,PYPL`;
 
 
     2. `/search` - Forgot the symbol? don't worry, you can search by this. See how it works:
@@ -128,9 +128,117 @@ There is five routes provided by this API:
             }]
             ```
 
-        Examples: `http://localhost:3000/search/microsoft`; `http://localhost:3000/search/paypal`
+        Examples: `http://localhost:3333/search/microsoft`; `http://localhost:3333/search/paypal`
 
-    3. `/prices/intraday` - Find the prices of one specific stock/funds using intraday prices. See how it works:
+    3. `/currencies/exchange` - Get the exchange rate between two currencies. See how it works:
+
+        Params:
+
+        - from_currency: The currency you would like to get the exchange rate for
+
+            type: `string`;
+
+            options: `any` value located in the [`currencies.json`](src/validators/currencies.json) file. Choose the one you prefer :smile:;
+
+        - to_currency: The destination currency for the exchange rate
+
+            type: `string`;
+
+            options: `any` value located in the [`currencies.json`](src/validators/currencies.json) file. Choose the one you prefer :smile:;
+
+        return-type: An `object` with `currencyExchangeRate` key with the information of the two currencies and bid/ask price values
+
+        ```typescript
+        {
+            currencyExchangeRate: {
+                fromCurrencyCode: string;
+                fromCurrencyName: string;
+                toCurrencyCode: string;
+                toCurrencyName: string;
+                exchangeRate: string;
+                lastRefreshed: string;
+                timeZone: string;
+                bidPrice: string;
+                askPrice: string;
+            };
+        }
+        ```
+
+        Examples:
+            `http://localhost:3333/currencies/exchange?from_currency=btc&to_currency=usd`;
+            `http://localhost:3333/currencies/exchange?from_currency=brl&to_currency=USD`;
+            `http://localhost:3333/currencies/exchange?from_currency=USD&to_currency=brl`;
+            `http://localhost:3333/currencies/exchange?from_currency=USD&to_currency=AZN`;
+
+    4. `/currencies/prices/daily` - Find the prices of one specific digital currency in a specific market using daily prices. See how it works:
+
+        Params:
+
+        - symbol: The symbol of the digital currency you want the prices
+
+            type: `string`;
+
+            options: `any` value located in the [`currencies.json`](src/validators/currencies.json) file (digital). Choose the one you prefer :smile:;
+
+        - market: The interval period for each price information
+
+            type: `string`;
+
+            options: `any` value located in the [`currencies.json`](src/validators/currencies.json) file (physical). Choose the one you prefer :smile:;
+
+            optional: default(`CNY`);
+
+        obs: You can not send these params empty
+
+        return-type: An `object` with `data` and `timeSeries` keys with timestamp (ISO format) and open/high/low/close/volume values
+
+        ```typescript
+        {
+            'data': {
+                'information': string,
+                'digitalCurrencyCode': string,
+                'digitalCurrencyName': string,
+                'marketCode': string,
+                'marketName': string,
+                'lastRefreshed': string,
+                'timeZone': string,
+            },
+            'timeSeries': {
+                //just an example
+                '2020-08-27T00:00:00.000Z': {
+                    // something like 'openCNY', 'highCNY' and so on
+                    '[key: string]': string,
+                    // USD values are always present
+                    'openUSD': string,
+                    'highUSD': string,
+                    'lowUSD': string,
+                    'closeUSD': string,
+                    'volume': string,
+                    'marketCapUSD': string,
+                },
+            }
+        }
+        ```
+
+        Examples:
+            `http://localhost:3333/currencies/prices/daily/xrp`;
+            `http://localhost:3333/currencies/prices/daily/btc?market=usd`;
+            `http://localhost:3333/currencies/prices/daily/BTC?market=brl`;
+            `http://localhost:3333/currencies/prices/daily/XRP?market=CNY`;
+
+    5. `/currencies/prices/weekly` - Find the prices of one specific digital currency in a specific market using weekly prices. See how it works:
+
+        Params: Same as `/currencies/prices/daily`
+
+        return-type: Same as `/currencies/prices/daily`
+
+    6. `/currencies/prices/monthly` - Find the prices of one specific digital currency in a specific market using monthly prices. See how it works:
+
+        Params: Same as `/currencies/prices/daily`
+
+        return-type: Same as `/currencies/prices/daily`
+
+    7. `/prices/intraday` - Find the prices of one specific stock/funds using intraday prices. See how it works:
 
         Params:
 
@@ -182,12 +290,12 @@ There is five routes provided by this API:
         ```
 
         Examples:
-            `http://localhost:3000/prices/intraday/ibm`;
-            `http://localhost:3000/prices/intraday/msft`;
-            `http://localhost:3000/prices/intraday/msft?interval=15min`;
-            `http://localhost:3000/prices/intraday/ibm?outputsize=full`;
+            `http://localhost:3333/prices/intraday/ibm`;
+            `http://localhost:3333/prices/intraday/msft`;
+            `http://localhost:3333/prices/intraday/msft?interval=15min`;
+            `http://localhost:3333/prices/intraday/ibm?outputsize=full`;
 
-    4. `/prices/daily` - Find the prices of one specific stock/funds using daily prices. See how it works:
+    8. `/prices/daily` - Find the prices of one specific stock/funds using daily prices. See how it works:
 
         Params: Same as `/prices/intraday` but `/prices/daily` does not contain `interval` parameter
 
@@ -207,11 +315,11 @@ There is five routes provided by this API:
         ```
 
         Examples:
-        `http://localhost:3000/prices/intraday/ibm`;
-        `http://localhost:3000/prices/intraday/msft`;
-        `http://localhost:3000/prices/intraday/ibm?outputsize=full`;
+        `http://localhost:3333/prices/intraday/ibm`;
+        `http://localhost:3333/prices/intraday/msft`;
+        `http://localhost:3333/prices/intraday/ibm?outputsize=full`;
 
-    5. `/prices/weekly` - Find the prices of one specific stock/funds using weekly prices. See how it works:
+    9. `/prices/weekly` - Find the prices of one specific stock/funds using weekly prices. See how it works:
 
         Params: Same as `/prices/daily` but `/prices/weekly` does not contain `outputsize` parameter
 
@@ -230,8 +338,8 @@ There is five routes provided by this API:
         ```
 
         Examples:
-        `http://localhost:3000/prices/intraday/ibm`;
-        `http://localhost:3000/prices/intraday/msft`;
+        `http://localhost:3333/prices/intraday/ibm`;
+        `http://localhost:3333/prices/intraday/msft`;
 
     obs: Some stocks/funds does not support timeseries (intraday, daily, weekly). In that case your reponse will be something like this
 
@@ -240,6 +348,10 @@ There is five routes provided by this API:
         "error":"Invalid API call. Please retry or visit the documentation (https://www.alphavantage.co/query/documentation/) for TIME_SERIES_INTRADAY."
     }
     ```
+
+    The same thing occurs with `currencies/prices` and `currencies/exchange` (_eg. Fetch the following will give an error_):
+    `http://localhost:3333/currencies/prices/daily/RPX`
+    `http://localhost:3333/currencies/exchange?from_currency=usd&to_currency=btc`
 
 ## :link: How to Contribute
 
