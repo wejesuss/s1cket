@@ -1,4 +1,4 @@
-<br>
+r<br>
 <p align="center">
   <img src="https://ik.imagekit.io/vhx2sevqtq/method-draw-image_p2GEAGPyO.svg" width="300" heigth="300">
 </p>
@@ -51,7 +51,7 @@ The project was developed using the following technologies
 - Celebrate
 
 ## :school_satchel: How to Use
-First you need an API_KEY to use the Alpha Vantage's API that this repostory rely, you can get your api_key [here](https://www.alphavantage.co/)
+First you need an API_KEY to use the Alpha Vantage's API that this repository rely, you can get your api_key [here](https://www.alphavantage.co/)
 
 After this, do that (I suppose you have [Node](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/) installed)
 
@@ -355,7 +355,7 @@ There is five routes provided by this API:
 
 ## :link: How to Contribute
 
-- Fork this repostory
+- Fork this repository
 
 1. Using github CLI
     ```bash
