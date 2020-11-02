@@ -19,7 +19,7 @@ ___
   <a href="#rocket-technologies-used">Technologies</a>&nbsp;|&nbsp;
   <a href="#school_satchel-how-to-use">How to Use</a>&nbsp;|&nbsp;
   <a href="#link-how-to-contribute">How to Contribute</a>&nbsp;|&nbsp;
-  <a href="#licença">License</a>
+  <a href="#license">License</a>
 </h3>
 
 ___
