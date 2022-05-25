@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { celebrate, errors } from 'celebrate';
+import { celebrate, errors, isCelebrateError } from 'celebrate';
 import Schemas from './validators/Schemas';
 
 import Bookmarks from './controllers/BookmarksController';
@@ -61,8 +61,8 @@ routes.get('/prices/weekly/:symbol', Prices.weekly);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 routes.use((error, _req, res, _next) => {
-    if (error.joi) {
-        return res.status(400).json({ error: error.joi.message });
+    if (isCelebrateError(error)) {
+        return res.status(400).json({ error: error.message });
     }
 
     return res.status(500).json(error);
