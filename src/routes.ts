@@ -62,7 +62,11 @@ routes.get('/prices/weekly/:symbol', Prices.weekly);
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 routes.use((error, _req, res, _next) => {
     if (isCelebrateError(error)) {
-        return res.status(400).json({ error: error.message });
+        const details = {}
+        error.details.forEach((value, key) => {
+            details[key] = value.message
+        })
+        return res.status(400).json({ error: details || error.message });
     }
 
     return res.status(500).json(error);
